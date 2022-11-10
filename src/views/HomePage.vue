@@ -16,9 +16,10 @@
                                     <!--Nav Button  -->
                                     <nav>
                                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="details.htmlnav-home" role="tab" aria-controls="nav-home" aria-selected="true">All</a
+                                            <div @click="categoryFilter('')" class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="details.htmlnav-home" role="tab" aria-controls="nav-home" aria-selected="true">All</div
                         >
-                        <a
+                        <div
+                        
                           class="nav-item nav-link"
                           id="nav-profile-tab"
                           data-toggle="tab"
@@ -27,7 +28,8 @@
                           aria-controls="nav-profile"
                           aria-selected="false"
                           v-for="(category, index) in categoryLists" :key="index"
-                          >{{ category.title }}</a
+                          @click="categoryFilter(category.category_id)"
+                          >{{ category.title }}</div
                         >
 
                       </div>
@@ -53,6 +55,10 @@
                     >
                       <div class="whats-news-caption">
                         <div class="row">
+
+                          <div class=" fs-3 text-center my-5" v-if="postLists.length == 0">
+                            There is no Post Related to the category!
+                          </div>
 
 
                           <div class="col-lg-6 col-md-6" v-for="(post, index) in postLists" :key="index">

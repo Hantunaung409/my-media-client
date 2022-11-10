@@ -40,6 +40,18 @@ export default {
                 }
                 this.postLists = response.data.searchResult;
             });
+        },
+        categoryFilter(filterKey){
+            axios.post("http://127.0.0.1:8000/api/category/search",{ key : filterKey}).then((response) => {
+                for(let i=0; i<response.data.filterResult.length; i++){
+                    if(response.data.filterResult[i].image != null){
+                    response.data.filterResult[i].image = "http://127.0.0.1:8000/storage/postImage/"+response.data.filterResult[i].image;
+                    }else{
+                        response.data.filterResult[i].image = "http://127.0.0.1:8000/defaultPostImage/defualtPostImage.png";
+                    }
+                }
+                this.postLists = response.data.filterResult;
+            });
         }
     },
     mounted () {
