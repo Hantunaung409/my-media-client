@@ -1,12 +1,18 @@
 import axios from 'axios';
+import { isMappedTypeNode } from 'typescript';
+import {mapGetters} from "vuex";
 export default {
     name : 'HomePage',
     data () {
         return {
             postLists: {},
             categoryLists: {},
-            searchKey: ""
+            searchKey: "",
+            tokenStatus: false,
         }
+    },
+    computed: {
+       ...mapGetters(['storedToken','storedUserData'])
     },
     methods: {
         getAllPost () {
@@ -52,9 +58,39 @@ export default {
                 }
                 this.postLists = response.data.filterResult;
             });
+        },
+        newDetails(postId){
+            this.$router.push({
+                name : "newDetails",
+                params : {
+                    newId : postId,
+                },
+            });
+        },
+        home(){
+            this.$router.push({
+                name : 'homePage'
+            })
+        },
+        loginPage(){
+            this.$router.push({
+                name : 'loginPage'
+            })
+        },
+        checkToken(){
+           if(this.storedToken != null && this.storedToken != "" && this.storedToken != undefined){
+            this.tokenStatus = true ;
+           }else{
+            this.tokenStatus = false;
+           }
+        },
+        logoutPage(){
+            this.$store.dispatch('setToken', null);
+            this.loginPage();
         }
     },
     mounted () {
+        this.checkToken();
         this.getAllPost();
         this.getAllCategory();
     }
